@@ -26,8 +26,8 @@ export default class Overview extends React.Component {
                 <tr key={person.id}>
                   <th scope="row">{person.id}</th>
                   <td>{person.name}</td>
-                  <td>
-                    <Link to={`detail/${person.id}`}>View</Link>
+                  <td className="action">
+                    <Link to={`persons/${person.id}`}>View</Link>
                   </td>
                 </tr>
               ))}

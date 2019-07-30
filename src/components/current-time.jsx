@@ -4,7 +4,7 @@ import { Header } from "./header";
 
 export default class CurrentTime extends React.Component {
   constructor(props) {
-    const initialColor = props.color || "white";
+    const initialColor = props.color || "#333";
     super(props);
     this.state = {
       currentTime: new Date(),
@@ -33,30 +33,53 @@ export default class CurrentTime extends React.Component {
     return (
       <div>
         <Header title="Current Time" />
-        <button
+
+        <div className="input-group mb-3 col-md-6 p-0 mt-4">
+          <div className="input-group-prepend">
+            <span className="input-group-text">Input a color and hit Enter</span>
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Color"
+            aria-label="Color"
+            aria-describedby="button-color"
+            onChange={event => this.handleChange(event)}
+            onKeyUp={event => this.handleKeyUp(event)}
+            value={this.state.colorText}
+          />
+          <div className="input-group-append">
+          <button
+          className="btn btn-primary btn-sm"
           {...this.state.color === "red" && { disabled: "disabled" }}
           onClick={() => this.paintRed()}
-          style={{ backgroundColor: "red", color: "white" }}
         >
           paint this red
         </button>
-        <h1 style={{ backgroundColor: this.state.color }}>
-          {this.state.currentTime.toLocaleTimeString()}
+          </div>
+        </div>
+
+        <h1 className="col-md-6 p-0" >
+          <span
+            style={{ backgroundColor: this.state.color }}
+            className="badge badge-secondary"
+          >
+            {this.state.currentTime.toLocaleTimeString()}
+          </span>
         </h1>
-        <p>{this.props.children}</p>
-        <input
-          type="text"
-          onChange={event => this.handleChange(event)}
-          onKeyUp={event => this.handleKeyUp(event)}
-          value={this.state.colorText}
-        />
       </div>
     );
   }
+  updateTime() {
+    this.setState({ currentTime: new Date() });
+  }
   componentDidMount() {
-    setInterval(() => {
-      this.setState({ currentTime: new Date() });
+    this.interval = setInterval(() => {
+      this.updateTime();
     }, 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 }
 

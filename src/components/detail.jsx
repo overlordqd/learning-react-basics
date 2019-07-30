@@ -5,24 +5,24 @@ import { Header } from "./header";
 export default class Detail extends React.Component {
   state = {
     personId: this.props.match.params.id,
-    person: {}
+    person: null
   };
   render() {
-    return (
+    return ( 
       <div>
         <Header title="Details" />
+        {this.state.person ? (
         <div className="col-md-2 offset-md-5">
-
-          <div class="card">
+          <div className="card">
             <div className="card-title">{this.state.person.name}</div>
             <img
-              class="card-img-top"
+              className="card-img-top"
               src={this.state.person.image}
               alt="Card cap"
             />
-            <div class="card-body">
-              <p class="card-text">{this.state.person.description}</p>
-              <p class="card-text">{this.state.person.createdAt}</p>
+            <div className="card-body">
+              <p className="card-text">{this.state.person.description}</p>
+              <p className="card-text">{this.formatDate(this.state.person.createdAt)}</p>
               <button
             className="btn btn-primary btn-sm"
             onClick={() => this.props.history.goBack()}
@@ -31,9 +31,13 @@ export default class Detail extends React.Component {
           </button>
             </div>
           </div>
-        </div>
+        </div>) : ""}
       </div>
     );
+  }
+  formatDate = (date) => {
+    
+    return new Date(date).toLocaleString();
   }
   componentDidMount() {
     axios

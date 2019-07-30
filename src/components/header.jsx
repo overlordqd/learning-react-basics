@@ -14,15 +14,21 @@ export const Header = props => {
           {props.title}
       </h3>
       <div className="links">
-        <NavLink exact activeClassName='is-active' to="/" className="m-2">Overview</NavLink>
-        <NavLink exact activeClassName='is-active' to="/current-time" className="m-2">Current time</NavLink>
-        <NavLink activeClassName='is-active' to="#" className="m-2" location="/detail/:id">Details</NavLink>
+        <NavLink exact activeClassName='is-active' isActive={(a, b) => handleIsActive(b, "/persons")} to="/" className="m-2">Persons</NavLink>
+        <NavLink exact activeClassName='is-active' to="/current-time" className="m-2">Current time</NavLink>        
       </div>
     </nav>
   );
+ 
 };
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
   color: PropTypes.string
 };
+
+function handleIsActive(b, c) {
+  if(c)
+    return b.pathname.startsWith(c);
+    return false;
+}
